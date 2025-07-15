@@ -3,18 +3,27 @@
 
 echo "🚀 Setting up GitHub MCP Server..."
 
-# Install Python dependencies
-echo "📦 Installing Python dependencies..."
+# Create virtual environment if it doesn't exist
+if [ ! -d "venv" ]; then
+    echo "🐍 Creating Python virtual environment..."
+    python -m venv venv
+fi
+
+# Activate virtual environment and install dependencies
+echo "📦 Installing Python dependencies in virtual environment..."
+source venv/bin/activate
 pip install -r requirements.txt
 
-# Get the absolute path to the server script
+# Get the absolute paths
 SCRIPT_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/github_mcp_server.py"
+PYTHON_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/venv/bin/python"
 
 echo "📁 Server script location: $SCRIPT_PATH"
+echo "🐍 Python interpreter: $PYTHON_PATH"
 
 # Add MCP server to Q CLI
 echo "🔧 Adding MCP server to Q CLI..."
-q mcp add --name github-server --command python3 --args "$SCRIPT_PATH" --scope global --force
+q mcp add --name github-server --command "$PYTHON_PATH" --args "$SCRIPT_PATH" --scope global --force
 
 echo "✅ Setup complete!"
 echo ""
