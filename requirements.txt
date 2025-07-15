@@ -1,0 +1,4 @@
+# GitHub MCP Server Dependencies
+requests>=2.31.0
+PyGithub>=1.59.0
+asyncio-mqtt>=0.13.0
